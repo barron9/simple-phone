@@ -1,4 +1,4 @@
-package com.github.barron9.phone
+package com.barron9.phone
 
 import com.google.gson.JsonObject
 import io.reactivex.Observable
@@ -10,4 +10,7 @@ interface GetData {
 
     @GET("/brngdtl")
     fun get(@Query("g") gsmnumber: String): Observable<JsonObject>
+
+    @GET("/pdtl")
+    fun put(@Query("g") gsmnumber: String, @Query("p") vote: Boolean): Observable<JsonObject>
 }

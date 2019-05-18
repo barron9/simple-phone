@@ -1,4 +1,4 @@
-package com.github.barron9.phone
+package com.barron9.phone
 
 import android.annotation.SuppressLint
 import android.content.Context
@@ -24,7 +24,7 @@ class CallActivity : AppCompatActivity() {
     private val disposables = CompositeDisposable()
 
     private lateinit var number: String
-
+    var client: GetData = startclient()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_call)
@@ -41,24 +41,41 @@ class CallActivity : AppCompatActivity() {
         hangup.setOnClickListener {
             OngoingCall.hangup()
         }
+        upbutton.setOnClickListener {
+            putdata(true, number)
+            downbutton.isVisible = false
+            upbutton.isVisible = false
+        }
+        downbutton.setOnClickListener {
+            putdata(false, number)
+            upbutton.isVisible = false
+            downbutton.isVisible = false
 
+        }
+        loadData(number as String)
         OngoingCall.state
             .subscribe(::updateUi)
+
             .addTo(disposables)
 
         OngoingCall.state
             .filter { it == Call.STATE_DISCONNECTED }
             .delay(1, TimeUnit.SECONDS)
             .firstElement()
-            .subscribe { finish() }
+            .subscribe {
+                // finish()
+            }
             .addTo(disposables)
+
+
     }
 
     @SuppressLint("SetTextI18n")
     private fun updateUi(state: Int) {
+
         callInfo.text = "${state.asString().toLowerCase().capitalize()}\n"
         phonenumber.text = "$number"
-        loadData(number as String)
+
         answer.isVisible = state == Call.STATE_RINGING
         hangup.isVisible = state in listOf(
             Call.STATE_DIALING,
@@ -83,46 +100,44 @@ class CallActivity : AppCompatActivity() {
 
     private fun loadData(gsm: String) {
 
-//Define the Retrofit request//
-
-        val requestInterface = Retrofit.Builder()
-
-//Set the API’s base URL//
-
-            .baseUrl("https://tester233.free.beeceptor.com")
-
-//Specify the converter factory to use for serialization and deserialization//
-
-            .addConverterFactory(GsonConverterFactory.create())
-
-//Add a call adapter factory to support RxJava return types//
-
-            .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
-
-//Build the Retrofit instance//
-
-            .build().create(GetData::class.java)
-
-//Add all RxJava disposables to a CompositeDisposable//
         disposables?.add(
-            requestInterface.get(gsm)
-
-//Send the Observable’s notifications to the main UI thread//
-
+            client.get(gsm)
+                .onErrorReturn { throwable -> JsonObject() }
                 .observeOn(AndroidSchedulers.mainThread())
-
-//Subscribe to the Observer away from the main UI thread//
-
+                .onErrorReturn { throwable -> JsonObject() }
                 .subscribeOn(Schedulers.io())
                 .subscribe(this::handleResponse)
         )
 
     }
 
+    private fun putdata(vote: Boolean, gsm: String) {
+        disposables?.add(
+            client.put(gsm, vote)
+                .onErrorReturn { throwable -> JsonObject() }
+                .observeOn(AndroidSchedulers.mainThread())
+                .onErrorReturn { throwable -> JsonObject() }
+                .subscribeOn(Schedulers.io())
+                .subscribe(this::handleResponse)
+        )
+
+    }
+
+    private fun startclient(): GetData {
+
+        return Retrofit.Builder()
+            .baseUrl("https://6p6s.com/callyapi/")
+            .addConverterFactory(GsonConverterFactory.create())
+            .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
+            .build().create(GetData::class.java)
+    }
+
     private fun handleResponse(cryptoList: JsonObject) {
 
         Timber.tag("gsmresponse").e(cryptoList?.toString())
-        callInfo.text = cryptoList?.toString() + "\n" + callInfo.text
+        callInfo.text = callInfo.text
+        positives.text = cryptoList.get("positives")?.asString
+        negatives.text = cryptoList.get("negatives")?.asString
 
     }
 

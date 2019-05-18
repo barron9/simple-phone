@@ -1,24 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest
     xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.github.barron9.phone"
+    package="com.barron9.phone"
     >
 
     <uses-permission android:name="android.permission.CALL_PHONE" />
     <uses-permission android:name="android.permission.INTERNET"/>
     <application
-        android:name="com.github.barron9.phone.App"
+        android:name="com.barron9.phone.App"
         android:allowBackup="true"
-        android:icon="@mipmap/ic_launcher"
+        android:icon="@drawable/customer"
         android:label="@string/app_name"
-        android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         >
 
         <activity
-            android:name="com.github.barron9.phone.DialerActivity"
-            android:windowSoftInputMode="stateAlwaysVisible|adjustResize"
+            android:name="com.barron9.phone.DialerActivity"
+            android:windowSoftInputMode="stateHidden|stateAlwaysHidden"
             >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -42,7 +41,7 @@
         </activity>
 
         <service
-            android:name="com.github.barron9.phone.CallService"
+            android:name="com.barron9.phone.CallService"
             android:permission="android.permission.BIND_INCALL_SERVICE"
             >
             <meta-data
@@ -54,7 +53,11 @@
             </intent-filter>
         </service>
 
-        <activity android:name="com.github.barron9.phone.CallActivity" />
+        <activity android:name="com.barron9.phone.CallActivity" />
+        <meta-data
+            android:name="preloaded_fonts"
+            android:resource="@array/preloaded_fonts"
+            />
     </application>
 
 </manifest>

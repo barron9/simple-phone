@@ -1,6 +1,8 @@
 <resources>
-    <string name="app_name">Kotlin-reactivex-phone</string>
+    <string name="app_name">Cally</string>
     <string name="call_input_hint">Call..</string>
     <string name="answer">Answer</string>
     <string name="hangup">Hang Up</string>
+    <string name="callmake">Call!</string>
+
 </resources>

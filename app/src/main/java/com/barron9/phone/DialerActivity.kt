@@ -1,12 +1,12 @@
-package com.github.barron9.phone
+package com.barron9.phone
 
 import android.Manifest.permission.CALL_PHONE
 import android.content.Intent
-import android.os.Build
 import android.os.Bundle
 import android.telecom.TelecomManager
 import android.telecom.TelecomManager.ACTION_CHANGE_DEFAULT_DIALER
 import android.telecom.TelecomManager.EXTRA_CHANGE_DEFAULT_DIALER_PACKAGE_NAME
+import android.view.WindowManager
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat.requestPermissions
 import androidx.core.content.PermissionChecker.PERMISSION_GRANTED
@@ -21,17 +21,20 @@ class DialerActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_dialer)
         phoneNumberInput.setText(intent?.data?.schemeSpecificPart)
-
+        phoneNumberInput.setShowSoftInputOnFocus(false);
+        parseNumber()
     }
 
     override fun onStart() {
         super.onStart()
         offerReplacingDefaultDialer()
-
+        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
+        buttoncall.setOnClickListener { makeCall() }
         phoneNumberInput.setOnEditorActionListener { _, _, _ ->
             makeCall()
             true
         }
+
     }
 
     private fun makeCall() {
@@ -65,6 +68,22 @@ class DialerActivity : AppCompatActivity() {
 
     }
 
+    private fun parseNumber() {
+        button0.setOnClickListener { phoneNumberInput.append("0") }
+        button1.setOnClickListener { phoneNumberInput.append("1") }
+        button2.setOnClickListener { phoneNumberInput.append("2") }
+        button3.setOnClickListener { phoneNumberInput.append("3") }
+        button4.setOnClickListener { phoneNumberInput.append("4") }
+        button5.setOnClickListener { phoneNumberInput.append("5") }
+        button6.setOnClickListener { phoneNumberInput.append("6") }
+        button7.setOnClickListener { phoneNumberInput.append("7") }
+        button8.setOnClickListener { phoneNumberInput.append("8") }
+        button9.setOnClickListener { phoneNumberInput.append("9") }
+        button11.setOnClickListener { phoneNumberInput.append("#") }
+        button10.setOnClickListener { phoneNumberInput.append("*") }
+
+
+    }
     companion object {
         const val REQUEST_PERMISSION = 0
     }

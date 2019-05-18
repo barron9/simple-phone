@@ -12,15 +12,13 @@
         android:id="@+id/callInfo"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="214dp"
-        android:layout_marginBottom="8dp"
+        android:layout_marginTop="8dp"
         android:gravity="center"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:textAllCaps="true"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.4"
+        app:layout_constraintTop_toBottomOf="@+id/imageView"
         tools:text="Hello World!"
         />
 
@@ -28,8 +26,8 @@
         android:id="@+id/answer"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="48dp"
-        android:backgroundTint="#8CCE75"
+        android:layout_marginTop="88dp"
+        android:backgroundTint="#F248FD05"
         android:text="@string/answer"
         android:textColor="#F0FFFFFF"
         android:textSize="18sp"
@@ -38,14 +36,14 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toEndOf="@+id/hangup"
-        app:layout_constraintTop_toBottomOf="@+id/callInfo"
+        app:layout_constraintTop_toBottomOf="@+id/downbutton"
         />
 
     <Button
         android:id="@+id/hangup"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="50dp"
+        android:layout_marginTop="88dp"
         android:layout_marginEnd="8dp"
         android:backgroundTint="#DA4242"
         android:text="@string/hangup"
@@ -56,24 +54,23 @@
         app:layout_constraintEnd_toStartOf="@+id/answer"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/callInfo"
+        app:layout_constraintTop_toBottomOf="@+id/upbutton"
         />
 
     <TextView
         android:id="@+id/phonenumber"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="32dp"
         android:text="TextView"
         android:textAlignment="center"
         android:textColor="#DC616161"
         android:textSize="22dp"
         android:textStyle="normal|bold"
-        app:layout_constraintBottom_toTopOf="@+id/callInfo"
+        app:layout_constraintBottom_toTopOf="@+id/guideline"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.622"
         tools:text="05418665058"
         />
 
@@ -85,40 +82,80 @@
         android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
         android:layout_marginBottom="8dp"
+        android:src="@drawable/employee"
         app:layout_constraintBottom_toTopOf="@+id/phonenumber"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        android:src="@drawable/employee"
+        app:layout_constraintVertical_bias="0.145"
         />
 
     <ImageView
-        android:id="@+id/imageView2"
+        android:id="@+id/upbutton"
+        android:background="?android:attr/selectableItemBackground"
         android:layout_width="50dp"
         android:layout_height="50dp"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="12dp"
         android:layout_marginEnd="8dp"
         android:src="@drawable/like"
+        app:layout_constraintBottom_toTopOf="@+id/guideline"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.398"
+        app:layout_constraintHorizontal_bias="0.277"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/phonenumber"
+        app:layout_constraintTop_toTopOf="@+id/guideline"
+        app:layout_constraintVertical_bias="1.0"
         />
 
     <ImageView
-        android:id="@+id/imageView3"
+        android:id="@+id/downbutton"
         android:layout_width="50dp"
+
         android:layout_height="50dp"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="12dp"
+        android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
-        android:src="@drawable/like"
+        android:background="?android:attr/selectableItemBackground"
         android:rotation="180"
+        android:src="@drawable/like"
+        app:layout_constraintBottom_toTopOf="@+id/guideline"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.601"
+        app:layout_constraintHorizontal_bias="0.722"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/phonenumber"
+        app:layout_constraintTop_toTopOf="@+id/guideline"
+        />
+
+    <TextView
+        android:id="@+id/positives"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:text="0"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@+id/guideline"
+        app:layout_constraintEnd_toStartOf="@+id/upbutton"
+        app:layout_constraintTop_toTopOf="@+id/guideline"
+        />
+
+    <TextView
+        android:id="@+id/negatives"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:text="0"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@+id/guideline"
+        app:layout_constraintStart_toEndOf="@+id/downbutton"
+        app:layout_constraintTop_toTopOf="@+id/guideline"
+        />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_begin="302dp"
         />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

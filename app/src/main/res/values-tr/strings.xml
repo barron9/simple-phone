@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Kotlin-reactivex-phone</string>
+    <string name="answer">Cevapla</string>
+    <string name="call_input_hint">Ara..</string>
+    <string name="hangup">Sonlandır</string>
+</resources>

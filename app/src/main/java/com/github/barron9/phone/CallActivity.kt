@@ -1,4 +1,4 @@
-package com.github.arekolek.phone
+package com.github.barron9.phone
 
 import android.annotation.SuppressLint
 import android.content.Context
@@ -7,9 +7,16 @@ import android.os.Bundle
 import android.telecom.Call
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
+import com.google.gson.JsonObject
+import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.rxkotlin.addTo
+import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.activity_call.*
+import retrofit2.Retrofit
+import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
+import retrofit2.converter.gson.GsonConverterFactory
+import timber.log.Timber
 import java.util.concurrent.TimeUnit
 
 class CallActivity : AppCompatActivity() {
@@ -49,8 +56,9 @@ class CallActivity : AppCompatActivity() {
 
     @SuppressLint("SetTextI18n")
     private fun updateUi(state: Int) {
-        callInfo.text = "${state.asString().toLowerCase().capitalize()}\n$number"
-
+        callInfo.text = "${state.asString().toLowerCase().capitalize()}\n"
+        phonenumber.text = "$number"
+        loadData(number as String)
         answer.isVisible = state == Call.STATE_RINGING
         hangup.isVisible = state in listOf(
             Call.STATE_DIALING,
@@ -72,4 +80,50 @@ class CallActivity : AppCompatActivity() {
                 .let(context::startActivity)
         }
     }
+
+    private fun loadData(gsm: String) {
+
+//Define the Retrofit request//
+
+        val requestInterface = Retrofit.Builder()
+
+//Set the API’s base URL//
+
+            .baseUrl("https://tester233.free.beeceptor.com")
+
+//Specify the converter factory to use for serialization and deserialization//
+
+            .addConverterFactory(GsonConverterFactory.create())
+
+//Add a call adapter factory to support RxJava return types//
+
+            .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
+
+//Build the Retrofit instance//
+
+            .build().create(GetData::class.java)
+
+//Add all RxJava disposables to a CompositeDisposable//
+        disposables?.add(
+            requestInterface.get(gsm)
+
+//Send the Observable’s notifications to the main UI thread//
+
+                .observeOn(AndroidSchedulers.mainThread())
+
+//Subscribe to the Observer away from the main UI thread//
+
+                .subscribeOn(Schedulers.io())
+                .subscribe(this::handleResponse)
+        )
+
+    }
+
+    private fun handleResponse(cryptoList: JsonObject) {
+
+        Timber.tag("gsmresponse").e(cryptoList?.toString())
+        callInfo.text = cryptoList?.toString() + "\n" + callInfo.text
+
+    }
+
 }

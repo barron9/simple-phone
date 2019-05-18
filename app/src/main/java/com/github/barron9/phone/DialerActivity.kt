@@ -1,7 +1,8 @@
-package com.github.arekolek.phone
+package com.github.barron9.phone
 
 import android.Manifest.permission.CALL_PHONE
 import android.content.Intent
+import android.os.Build
 import android.os.Bundle
 import android.telecom.TelecomManager
 import android.telecom.TelecomManager.ACTION_CHANGE_DEFAULT_DIALER
@@ -20,6 +21,7 @@ class DialerActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_dialer)
         phoneNumberInput.setText(intent?.data?.schemeSpecificPart)
+
     }
 
     override fun onStart() {
@@ -33,6 +35,7 @@ class DialerActivity : AppCompatActivity() {
     }
 
     private fun makeCall() {
+
         if (checkSelfPermission(this, CALL_PHONE) == PERMISSION_GRANTED) {
             val uri = "tel:${phoneNumberInput.text}".toUri()
             startActivity(Intent(Intent.ACTION_CALL, uri))
@@ -52,11 +55,14 @@ class DialerActivity : AppCompatActivity() {
     }
 
     private fun offerReplacingDefaultDialer() {
-        if (getSystemService(TelecomManager::class.java).defaultDialerPackage != packageName) {
-            Intent(ACTION_CHANGE_DEFAULT_DIALER)
-                .putExtra(EXTRA_CHANGE_DEFAULT_DIALER_PACKAGE_NAME, packageName)
-                .let(::startActivity)
-        }
+
+            if (getSystemService(TelecomManager::class.java).defaultDialerPackage != packageName) {
+                Intent(ACTION_CHANGE_DEFAULT_DIALER)
+                    .putExtra(EXTRA_CHANGE_DEFAULT_DIALER_PACKAGE_NAME, packageName)
+                    .let(::startActivity)
+            }
+
+
     }
 
     companion object {

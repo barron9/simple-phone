@@ -42,14 +42,22 @@ class CallActivity : AppCompatActivity() {
             OngoingCall.hangup()
         }
         upbutton.setOnClickListener {
-            putdata(true, number)
+            putdata(true, number, comments.text?.toString() ?: "")
             downbutton.isVisible = false
             upbutton.isVisible = false
+            comments.isEnabled = false
+
+            finish()
+
         }
         downbutton.setOnClickListener {
-            putdata(false, number)
+            putdata(false, number, comments.text?.toString() ?: "")
             upbutton.isVisible = false
             downbutton.isVisible = false
+            comments.isEnabled = false
+
+            finish()
+
 
         }
         loadData(number as String)
@@ -72,7 +80,9 @@ class CallActivity : AppCompatActivity() {
 
     @SuppressLint("SetTextI18n")
     private fun updateUi(state: Int) {
-
+        when (state) {
+            7 -> comments.isVisible = true
+        }
         callInfo.text = "${state.asString().toLowerCase().capitalize()}\n"
         phonenumber.text = "$number"
 
@@ -111,9 +121,9 @@ class CallActivity : AppCompatActivity() {
 
     }
 
-    private fun putdata(vote: Boolean, gsm: String) {
+    private fun putdata(vote: Boolean, gsm: String, comments: String) {
         disposables?.add(
-            client.put(gsm, vote)
+            client.put(gsm, vote, comments)
                 .onErrorReturn { throwable -> JsonObject() }
                 .observeOn(AndroidSchedulers.mainThread())
                 .onErrorReturn { throwable -> JsonObject() }

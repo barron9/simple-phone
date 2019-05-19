@@ -6,6 +6,8 @@ import android.os.Bundle
 import android.telecom.TelecomManager
 import android.telecom.TelecomManager.ACTION_CHANGE_DEFAULT_DIALER
 import android.telecom.TelecomManager.EXTRA_CHANGE_DEFAULT_DIALER_PACKAGE_NAME
+import android.text.Editable
+import android.util.Log
 import android.view.WindowManager
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat.requestPermissions
@@ -30,6 +32,10 @@ class DialerActivity : AppCompatActivity() {
         offerReplacingDefaultDialer()
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
         buttoncall.setOnClickListener { makeCall() }
+        deletebutton.setOnClickListener {
+            phoneNumberInput.text = Editable.Factory.getInstance().newEditable("")
+        }
+
         phoneNumberInput.setOnEditorActionListener { _, _, _ ->
             makeCall()
             true
@@ -59,11 +65,11 @@ class DialerActivity : AppCompatActivity() {
 
     private fun offerReplacingDefaultDialer() {
 
-            if (getSystemService(TelecomManager::class.java).defaultDialerPackage != packageName) {
-                Intent(ACTION_CHANGE_DEFAULT_DIALER)
-                    .putExtra(EXTRA_CHANGE_DEFAULT_DIALER_PACKAGE_NAME, packageName)
-                    .let(::startActivity)
-            }
+        if (getSystemService(TelecomManager::class.java).defaultDialerPackage != packageName) {
+            Intent(ACTION_CHANGE_DEFAULT_DIALER)
+                .putExtra(EXTRA_CHANGE_DEFAULT_DIALER_PACKAGE_NAME, packageName)
+                .let(::startActivity)
+        }
 
 
     }
@@ -84,6 +90,7 @@ class DialerActivity : AppCompatActivity() {
 
 
     }
+
     companion object {
         const val REQUEST_PERMISSION = 0
     }

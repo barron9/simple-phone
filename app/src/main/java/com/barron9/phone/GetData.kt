@@ -12,5 +12,5 @@ interface GetData {
     fun get(@Query("g") gsmnumber: String): Observable<JsonObject>
 
     @GET("/pdtl")
-    fun put(@Query("g") gsmnumber: String, @Query("p") vote: Boolean): Observable<JsonObject>
+    fun put(@Query("g") gsmnumber: String, @Query("p") vote: Boolean, @Query("c") comments: String): Observable<JsonObject>
 }

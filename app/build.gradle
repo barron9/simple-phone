@@ -10,7 +10,7 @@ android {
         applicationId "com.barron9.phone"
         minSdkVersion 23
         targetSdkVersion 28
-        versionCode 1
+        versionCode 5
         versionName "1.0"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
